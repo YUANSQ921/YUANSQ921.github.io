@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="C语言的工作方式 源代码：从创建一个源文件开始，源文件是供人阅读的C代码。 编译：通过编译器运行源代码，编译器会检查是否有错，如果编译器没有发现错误，就开始编译源代码。 输出：编译器会会创建一个可执行文件，文件中为机器代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进入C语言的世界">
+<meta property="og:url" content="http://example.com/posts/41580/">
+<meta property="og:site_name" content="YUANSQ">
+<meta property="og:description" content="C语言的工作方式 源代码：从创建一个源文件开始，源文件是供人阅读的C代码。 编译：通过编译器运行源代码，编译器会检查是否有错，如果编译器没有发现错误，就开始编译源代码。 输出：编译器会会创建一个可执行文件，文件中为机器代码。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-18T08:15:57.000Z">
+<meta property="article:modified_time" content="2023-03-18T08:22:05.058Z">
+<meta property="article:author" content="YUANSQ">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/posts/41580/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/posts/41580/","path":"posts/41580/","title":"进入C语言的世界"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>进入C语言的世界 | YUANSQ</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">YUANSQ</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">C语言的工作方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E6%BA%90%E6%96%87%E4%BB%B6%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">C源文件程序的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#main-%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">main()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#printf-%E5%87%BD%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">printf()函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%90%86%E8%AE%BA"><span class="nav-number">3.</span> <span class="nav-text">字符串理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">4.</span> <span class="nav-text">Q&amp;A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E7%B1%BB%E5%91%BD%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">两类命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E8%BF%90%E7%AE%97"><span class="nav-number">6.</span> <span class="nav-text">布尔运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A-1"><span class="nav-number">7.</span> <span class="nav-text">Q&amp;A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#switch%E8%AF%AD%E5%8F%A5"><span class="nav-number">8.</span> <span class="nav-text">switch语句</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A6%81%E7%82%B9"><span class="nav-number">9.</span> <span class="nav-text">要点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A-2"><span class="nav-number">10.</span> <span class="nav-text">Q&amp;A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#while%E5%BE%AA%E7%8E%AF"><span class="nav-number">11.</span> <span class="nav-text">while循环</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="nav-number">12.</span> <span class="nav-text">循环结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#for%E5%BE%AA%E7%8E%AF"><span class="nav-number">12.1.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#break%E8%AF%AD%E5%8F%A5%E9%80%80%E5%87%BA%E5%BE%AA%E7%8E%AF"><span class="nav-number">12.2.</span> <span class="nav-text">break语句退出循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#continue%E7%BB%A7%E7%BB%AD%E5%BE%AA%E7%8E%AF"><span class="nav-number">12.3.</span> <span class="nav-text">continue继续循环</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%88%9B%E5%BB%BA"><span class="nav-number">13.</span> <span class="nav-text">函数创建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0"><span class="nav-number">13.1.</span> <span class="nav-text">main函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#void%E5%87%BD%E6%95%B0"><span class="nav-number">13.2.</span> <span class="nav-text">void函数</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="YUANSQ"
+      src="/images/halo.jpg">
+  <p class="site-author-name" itemprop="name">YUANSQ</p>
+  <div class="site-description" itemprop="description">YUANSQ的个人博客。</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/YUANSQ921" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;YUANSQ921" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2774122424abc@gmail.com" title="E-Mail → mailto:2774122424abc@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/YUANSQ921" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;YUANSQ921" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/posts/41580/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/halo.jpg">
+      <meta itemprop="name" content="YUANSQ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YUANSQ">
+      <meta itemprop="description" content="YUANSQ的个人博客。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="进入C语言的世界 | YUANSQ">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          进入C语言的世界
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-03-18 16:15:57 / 修改时间：16:22:05" itemprop="dateCreated datePublished" datetime="2023-03-18T16:15:57+08:00">2023-03-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="C语言的工作方式"><a href="#C语言的工作方式" class="headerlink" title="C语言的工作方式"></a>C语言的工作方式</h1><ol>
+<li>源代码：从创建一个源文件开始，源文件是供人阅读的C代码。</li>
+<li>编译：通过编译器运行源代码，编译器会检查是否有错，如果编译器没有发现错误，就开始编译源代码。</li>
+<li>输出：编译器会会创建一个可执行文件，文件中为<font color='orange'>机器代码</font>。<span id="more"></span></li>
+</ol>
+<h1 id="C源文件程序的结构"><a href="#C源文件程序的结构" class="headerlink" title="C源文件程序的结构"></a>C源文件程序的结构</h1><ol>
+<li><p>注释部分</p>
+</li>
+<li><p><code>include</code>部分，包含相关库的头文件，告诉编译器需要哪些外部代码。<code>stdio.h</code>是最常见的头文件，包含了能在终端读取数据的代码。</p>
+</li>
+<li><p>函数部分，C语言最重要的是<code>main()</code>函数，它是程序中所有代码的起点。</p>
+<h2 id="main-函数"><a href="#main-函数" class="headerlink" title="main()函数"></a><code>main()</code>函数</h2><ul>
+<li><p>计算机会从<code>main()</code>函数开始运行程序，没有<code>main()</code>函数，程序就无法启动。</p>
+</li>
+<li><p>计算机通过检查<code>main()</code>函数的返回值判断程序是否运行成功。</p>
+</li>
+<li><p>函数名在返回类型之后出现，如果函数有参数，可以跟在函数名后面。最后是函数体，被花括号包围。</p>
+</li>
+</ul>
+<h2 id="printf-函数"><a href="#printf-函数" class="headerlink" title="printf()函数"></a><code>printf()</code>函数</h2><ul>
+<li>用于显示格式化输出，用变量的值替换格式符。</li>
+<li><code>printf()</code>函数可以包含任意参数，但每个参数都要有一个对应的%格式符。</li>
+</ul>
+</li>
+</ol>
+<h1 id="字符串理论"><a href="#字符串理论" class="headerlink" title="字符串理论"></a>字符串理论</h1><p><font size='4'>&#x3D;&#x3D;C语言不支持现成的字符串&#x3D;&#x3D;：C语言比其他大多数语言的抽象层次更低，因此它不提供字符串，而是用了相似的东西来代替：以字符为元素的数组。</font></p>
+<p><font size='4'>&#x3D;&#x3D;字符串只是字符数组&#x3D;&#x3D;：当C语言看到这样的字符串时：<code>s=Shatner</code>，会把它当作一个数组读取，而这个数组是由一个个独立的字符组成的：<code>s=&#123;&#39;S&#39;,&#39;h&#39;,&#39;a&#39;,&#39;t&#39;,&#39;n&#39;,&#39;e&#39;,&#39;r&#39;&#125;</code>，字符串中的每个字符是数组中的一个元素，这就是为什么可以通过索引来引用字符串中的某个字符，比如<code>s[0]=S、s[1]=h</code>。</font></p>
+<p><font size='4'>&#x3D;&#x3D;哨兵字符&#x3D;&#x3D;：C语言比大多数语言更底层，无法知道数组有多长，C语言要在屏幕上显示字符串，他就需要哨兵字符知道什么时候会到达字符数组的尾部。哨兵字符是一个出现在字符串末尾的附加字符，它的值是<code>\0</code>。每当计算机需要读取字符串的内容时，它会逐一扫描字符数组中的所有元素，直到碰到<code>\0</code>，也就是说当计算机看到下面这个字符串时：<code>s = &quot;Shatner&quot;</code>，存储器中实际保存的是：</font></p>
+<table>
+<thead>
+<tr>
+<th align="center">S</th>
+<th align="center">h</th>
+<th align="center">a</th>
+<th align="center">t</th>
+<th align="center">n</th>
+<th align="center">e</th>
+<th align="center">r</th>
+<th align="center">\0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>s[0]</code></td>
+<td align="center"><code>s[1]</code></td>
+<td align="center"><code>s[2]</code></td>
+<td align="center"><code>s[3]</code></td>
+<td align="center"><code>s[4]</code></td>
+<td align="center"><code>s[5]</code></td>
+<td align="center"><code>s[6]</code></td>
+<td align="center"><code>s[7]</code></td>
+</tr>
+</tbody></table>
+<h1 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><ol>
+<li>Q：为什么字符要从0开始编号？为什么不是1？<br>A：&#x3D;&#x3D;字符的索引值是一个偏移量&#x3D;&#x3D;：它表示<strong>当前要引用的这个字符到数组中第一个字符之间有多少字符。</strong></li>
+<li>Q：单、双引号有区别吗？<br>A：有区别，<strong>单引号通常用来表示单个字符，而双引号通常用来表示字符串。</strong></li>
+<li>Q：问：我应该用双引号（”）定义字符串，还是以显式字符数组的形式定义字符串？<br>A：通常应该用双引号来定义字符串。用<strong>双引号定义的字符串叫字符串字面值（string literal）</strong>，比起字符数组，它输入起来也更方便。</li>
+<li>Q：字符串字面值和字符数组有没有区别？<br>A：只有一个区别：&#x3D;&#x3D;字符串字面值是常量&#x3D;&#x3D;。</li>
+</ol>
+<h1 id="两类命令"><a href="#两类命令" class="headerlink" title="两类命令"></a>两类命令</h1><p>所有命令都可以分为两类：</p>
+<ol>
+<li>&#x3D;&#x3D;块语句&#x3D;&#x3D;：块语句是由花括号围起来的一组命令。 块语句能像处理一条语句那样处理一批语句。</li>
+<li>例如if这样的&#x3D;&#x3D;控制语句&#x3D;&#x3D;在运行代码之前会检查条件，当条件为真时，if语句才会执行块语句中的命令。</li>
+</ol>
+<h1 id="布尔运算"><a href="#布尔运算" class="headerlink" title="布尔运算"></a>布尔运算</h1><ul>
+<li><font size='4'>&amp;&amp; 只有当给出的两个条件同时为真时，与运算（&amp;&amp;）的结果才为真。</font></li>
+<li><font size='4'>|| 检查两个条件中只要有一个为真，或运算（||）的结果就是真。</font></li>
+<li><font size='4'>!是非运算，它将一个条件的值取反。</font></li>
+</ul>
+<p>PS：ANSI C标准没有用来表示真和假的值，C程序把0这个值当做假处理，把0以外的任何值当做真处理。C99标准则允许在程序中使用true和false关键字。但编译器还是会把它们当做1和0这两个值来处理。</p>
+<h1 id="Q-amp-A-1"><a href="#Q-amp-A-1" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><ol>
+<li>Q：为什么不能只写一个|和&amp; ？<br>A：也不是不行。**&amp;和|操作符总是计算两个条件<strong>，而</strong>&amp;&amp;和||可以跳过第二个条件**。</li>
+<li>Q：那还要|和&amp;干什么呢？<br>A：它们还能&#x3D;&#x3D;对数字的某一位进行布尔运算&#x3D;&#x3D;。</li>
+<li>Q：那是什么意思？<br>A：6 &amp; 4等于 4，是因为当对6（二进制数110）和4（二进制数100）的每个二进制位布尔与时，就会得到4（二进制数100）。</li>
+</ol>
+<h1 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h1><ul>
+<li>C程序经常需要多次检查同一个值，并且在每一种情况中执行非常类似的代码片段。C语言可以用switch语句进行逻辑测试。</li>
+<li><strong>switch语句</strong>和<strong>if</strong>语句有些像，但它可以&#x3D;&#x3D;测试一个变量的多种取值&#x3D;&#x3D;。</li>
+<li>当计算机遇到switch语句，它会检查给出的值，然后寻找匹配的case。找到后，它会运行case之后的所有代码直到遇到break语句。计算机会一直运行下去直到有人吩咐它退<strong>switch</strong>语句。</li>
+</ul>
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><ul>
+<li>switch语句可以&#x3D;&#x3D;取代一连串的if语句&#x3D;&#x3D;。</li>
+<li>switch语句&#x3D;&#x3D;检查一个单独的值&#x3D;&#x3D;。</li>
+<li>计算机会在第一个匹配的case语句处开始执行代码。</li>
+<li>在遇到break或到达switch语句的末尾前，代码会一直运行。</li>
+<li>核对是否把break放对了地方，否则switch语句就会出错。</li>
+</ul>
+<h1 id="Q-amp-A-2"><a href="#Q-amp-A-2" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><ol>
+<li>Q：为什么我要用<strong>switch</strong>语句取代<strong>if</strong>？<br>A：当需要多次检查同一变量时，使用switch语句会更方便。</li>
+<li>Q：我能在<strong>switch</strong>语句中检查字符串吗？<br>A：不能用switch语句检查字符串或任何形式的数组，&#x3D;&#x3D;switch语句只能检查值&#x3D;&#x3D;。</li>
+</ol>
+<h1 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h1><ul>
+<li>只要循环条件一直为真，while循环就会一次又一次、周而复始地运行代码。</li>
+<li><code>while(&lt;条件&gt;)&#123;/*循环体*/&#125;</code>运行检查条件，为真就执行循环体中的代码，当程序执行到循环体的末尾，计算机就会检查循环条件是否仍为真。如果是，就会再次执行循环体中的代码。</li>
+<li><code>do...while循环</code>，</li>
+<li>在循环体运行后才检查循环的条件，也就是说循环体至少会执行一次</li>
+</ul>
+<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><ol>
+<li>在循环开始前做一些简单的工作，比如设置计数器。</li>
+<li>在每一轮的循环开始前进行条件测试。</li>
+<li>在每一轮的循环结束后做一些工作，如更新计数器。</li>
+</ol>
+<p>下面是一个从1数到10的循环：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> counter = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (counter &lt; <span class="number">11</span>) &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%i个枣\n&quot;</span>, counter);</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><p>所有循环都是这样：首先为循环准备变量，其次在每一轮的循环前检查条件，最后在循环末尾更新计数器或实现类似功能。同样的代码用for循环写：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> counter;</span><br><span class="line"><span class="keyword">for</span> (counter = <span class="number">1</span>; counter &lt; <span class="number">11</span>; counter++) &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%i个枣\n&quot;</span>, counter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="break语句退出循环"><a href="#break语句退出循环" class="headerlink" title="break语句退出循环"></a>break语句退出循环</h2><p>break语句可以直接退出当前循环，跳过循环体中break之后的所有语句。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (feeling_hungry) &#123;</span><br><span class="line"> eat_cake();</span><br><span class="line"> <span class="keyword">if</span> (feeling_queasy) &#123;</span><br><span class="line"> <span class="comment">/* 从while循环中跳出 */</span></span><br><span class="line"> <span class="keyword">break</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> drink_coffee();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="continue继续循环"><a href="#continue继续循环" class="headerlink" title="continue继续循环"></a>continue继续循环</h2><p>continue语句跳过循环体的其余部分，然后回到循环的开始。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (feeling_hungry) &#123;</span><br><span class="line"> <span class="keyword">if</span> (not_lunch_yet) &#123;</span><br><span class="line"> <span class="comment">/* 回到循环条件 */</span></span><br><span class="line"> <span class="keyword">continue</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> eat_cake();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="函数创建"><a href="#函数创建" class="headerlink" title="函数创建"></a>函数创建</h1><h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> #这个函数返回一个整型值，main是函数的名字。</span><br><span class="line">&#123;</span><br><span class="line"> <span class="built_in">puts</span>(<span class="string">&quot;人生须臾，芳华易逝&quot;</span>); #函数体——做事情的那部分。</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>; #事情做完以后，返回一个值。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>main()</code>这一函数的返回类型是int，因此必须在函数结束前包含一条return语句。</p>
+<blockquote>
+<p>main()这一函数的返回类型是int，因此必须在函数结束前包含一条return语句。即使不加，代码也能编译通过，但会收到编译器 的警告。支持C99标准的编译器会在你忘记的时候插入一条return语句。如果你想让编译器遵循C99标准，可以使用<br><strong>-std&#x3D;99</strong>选项。</p>
+</blockquote>
+<h2 id="void函数"><a href="#void函数" class="headerlink" title="void函数"></a>void函数</h2><p>通常情况下，函数都需要包含一条return语句，但只要把函数的返回类型声明为void，没有return语句也无妨。</p>
+<p><strong>链式赋值</strong>：在C语言中，几乎每样东西都有返回值，不仅仅是函数调用，就连赋值表达式也有返回值。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y=( x=<span class="number">4</span>) 可以写成 y=x=<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>YUANSQ
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://example.com/posts/41580/" title="进入C语言的世界">http://example.com/posts/41580/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag"><i class="fa fa-tag"></i> C语言</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/862/" rel="prev" title="C语言入门">
+                  <i class="fa fa-chevron-left"></i> C语言入门
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">YUANSQ</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
